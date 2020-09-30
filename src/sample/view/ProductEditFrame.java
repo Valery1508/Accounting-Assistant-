@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import sample.controller.ProductController;
+import sample.view.table.ProductTable;
 
 import java.sql.SQLException;
 
@@ -22,8 +23,9 @@ public class ProductEditFrame {
         group = new VBox();
         Label editingLabel = new Label("Products editing");
         editingLabel.setFont(Font.font(20));
-        System.out.println(productController.getProductList());
-        group.getChildren().addAll(editingLabel);
+        //System.out.println(productController.getProductList());
+        ProductTable productTable = new ProductTable();
+        group.getChildren().addAll(editingLabel, productTable.createTable(productController.getProductList()));
         return group;
     }
 }

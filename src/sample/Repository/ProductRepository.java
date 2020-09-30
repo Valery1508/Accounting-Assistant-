@@ -69,6 +69,7 @@ public class ProductRepository extends ConnectionToDB {
             product.setCategory(resultSet.getString(3));
             products.add(product);
         }
+        System.out.println(products);
         //
         statement.close();
         connection.close();
