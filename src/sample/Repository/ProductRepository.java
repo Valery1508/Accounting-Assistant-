@@ -42,7 +42,8 @@ public class ProductRepository extends ConnectionToDB {
             e.printStackTrace();
         }
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select distinct category from product");
+        String SQL = "select distinct category from product;";
+        ResultSet resultSet = statement.executeQuery(SQL);
         List<String> categories = new ArrayList<>();
         while (resultSet.next()) {
             categories.add(resultSet.getString(1));
@@ -50,6 +51,23 @@ public class ProductRepository extends ConnectionToDB {
         statement.close();
         connection.close();
         return categories;
+    }
+
+    public List<Integer> getCodes() throws SQLException {
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select codeP from product;");
+        List<Integer> codes = new ArrayList<>();
+        while (resultSet.next()) {
+            codes.add(resultSet.getInt(1));
+        }
+        statement.close();
+        connection.close();
+        return codes;
     }
 
     public List<Product> getProducts() throws SQLException, ClassNotFoundException {
@@ -69,7 +87,7 @@ public class ProductRepository extends ConnectionToDB {
             product.setCategory(resultSet.getString(3));
             products.add(product);
         }
-        System.out.println(products);
+        //System.out.println(products);
         //
         statement.close();
         connection.close();

@@ -1,14 +1,15 @@
 package sample.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sample.view.product.ProductAddFrame;
+import sample.view.product.ProductDeleteFrame;
+import sample.view.product.ProductEditFrame;
 
 import java.sql.SQLException;
 
@@ -16,8 +17,11 @@ import java.sql.SQLException;
 public class MainFrame {
     private Stage stage;
     private Scene scene;
-    private VBox root;
+    //private VBox root;
+    private BorderPane root;
     private MenuBar menuBar;
+
+    private VBox addFrameVBox;
 
     public MainFrame(Stage stage){
     this.stage = stage;
@@ -29,11 +33,13 @@ public void show(){
     menuBar.getMenus().addAll(createProductMenu(),
                               createDeliveryNoteMenu(),
                               createProductCategoryMenu());
+    root = new BorderPane();
+    root.setTop(menuBar);
+    /*root = new VBox();
+    root.getChildren().addAll(menuBar);*/
 
-    root = new VBox();
-    root.getChildren().addAll(menuBar);
-
-    scene = new Scene(root, 600, 600);
+    //updateStage(root);  //вместо двух нижних строк
+    scene = new Scene(root, 500, 500);
     stage.setScene(scene);
     stage.setMinWidth(800);
     stage.setMinHeight(800);
@@ -42,23 +48,35 @@ public void show(){
     stage.show();
 };
 
+    public void updateStage(VBox vBox){
+        scene = new Scene(vBox, 500, 600);
+        stage.setScene(scene);
+    }
+
     private Menu createProductMenu() {
         Menu productMenu = new Menu("Product");
         MenuItem addProd = new MenuItem("Add");
         MenuItem editProd = new MenuItem("Edit");
         MenuItem deleteProd = new MenuItem("Delete");
 
-        addProd.setOnAction(actionEvent -> {
-            //updateMainFrame();
-            ProductAddFrame productAddFrame = new ProductAddFrame();
-            try {
-                root.getChildren().addAll(productAddFrame.addProduct());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
 
+        addProd.setOnAction(actionEvent -> {
+
+            if (!root.getChildren().contains(addFrameVBox)) {
+                ProductAddFrame productAddFrame = new ProductAddFrame();
+                try {
+
+                    addFrameVBox = productAddFrame.addProduct();
+                    //root.getChildren().addAll(addFrameVBox);
+                    root.setCenter(addFrameVBox);
+
+                    //updateStage(addFrameVBox);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
             //todo проверка на правильность введенных данных
             //todo вывести алерт "продукт добавлен"
             //todo обновить mainframe
@@ -69,12 +87,26 @@ public void show(){
             //updateMainFrame();
             ProductEditFrame productEditFrame = new ProductEditFrame();
             try {
-                root.getChildren().addAll(productEditFrame.editProduct());
+                root.setCenter(productEditFrame.editProduct());
+
+                //root.getChildren().addAll(productEditFrame.editProduct());
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        });
+
+        deleteProd.setOnAction(actionEvent -> {
+            ProductDeleteFrame productDeleteFrame = new ProductDeleteFrame();
+            try {
+                root.setCenter(productDeleteFrame.deleteProduct());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         });
 
         productMenu.getItems().addAll(addProd, editProd, deleteProd);
@@ -97,8 +129,4 @@ public void show(){
         return productCategoryMenu;
     }
 
-    public void updateMainFrame(){
-        stage.close();
-        show();
-    }
 }

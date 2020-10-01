@@ -1,5 +1,6 @@
-package sample.view;
+package sample.view.product;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,14 +19,17 @@ public class ProductEditFrame {
         productController = new ProductController();
     }
 
-    protected VBox editProduct() throws SQLException, ClassNotFoundException {
+    public VBox editProduct() throws SQLException, ClassNotFoundException {
 
         group = new VBox();
-        Label editingLabel = new Label("Products editing");
+        Label editingLabel = new Label("Edit products info");
         editingLabel.setFont(Font.font(20));
-        //System.out.println(productController.getProductList());
-        ProductTable productTable = new ProductTable();
-        group.getChildren().addAll(editingLabel, productTable.createTable(productController.getProductList()));
+        editingLabel.setStyle("-fx-font-weight: bold");
+
+        group.getChildren().addAll(editingLabel, productController.createTableOfProducts());
+        /*ProductTable productTable = new ProductTable();
+        group.getChildren().addAll(editingLabel, productTable.createTable(productController.getProductList()));*/
+        group.setPadding(new Insets(10, 10, 0, 10));
         return group;
     }
 }
