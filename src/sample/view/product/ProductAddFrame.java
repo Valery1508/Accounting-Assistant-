@@ -10,14 +10,14 @@ import javafx.scene.text.Font;
 import sample.controller.ProductController;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
 public class ProductAddFrame {
     private ProductController productController;
-    public HBox form;
-    public VBox allElements;
+    private HBox form;
+    private VBox allElements;
+    private Label addingLabel;
     private TextField textFieldCodeP, textFieldNameP;
     private ComboBox<String> categoryComboBox;
 
@@ -26,7 +26,23 @@ public class ProductAddFrame {
     }
 
     public VBox addProduct() throws SQLException, ClassNotFoundException {
-        Label addingLabel = new Label("Add new product");
+
+        createForm();
+
+        Button addButton = new Button("ADD");
+        addButton.setMinWidth(90);
+        actions(addButton);
+
+        allElements = new VBox();
+        allElements.getChildren().addAll(addingLabel, form, addButton);
+        allElements.setSpacing(10);
+        allElements.setPadding(new Insets(10, 0, 0, 10));
+
+        return allElements;
+    }
+
+    private void createForm() throws SQLException, ClassNotFoundException {
+        addingLabel = new Label("Add new product");
         addingLabel.setFont(Font.font(20));
         addingLabel.setStyle("-fx-font-weight: bold");
 
@@ -36,25 +52,13 @@ public class ProductAddFrame {
         textFieldNameP = new TextField();
         textFieldNameP.setPromptText("Product name");
 
-        ObservableList<String> categories = FXCollections.observableArrayList(productController.getCategoryList()); //ошибка
+        ObservableList<String> categories = FXCollections.observableArrayList(productController.getCategoryList());
         categoryComboBox = new ComboBox<String>(categories);
         categoryComboBox.setValue("Продовольственный");
-
-        Button addButton = new Button("ADD");
-        addButton.setMinWidth(90);
-
-        actions(addButton);
 
         form = new HBox();
         form.getChildren().addAll(textFieldCodeP, textFieldNameP, categoryComboBox);
         form.setSpacing(10);
-
-        allElements = new VBox();
-        allElements.getChildren().addAll(addingLabel, form, addButton);
-        allElements.setSpacing(10);
-        allElements.setPadding(new Insets(10, 0, 0, 10));
-
-        return allElements;
     }
 
     public void actions(Button addButton){
@@ -65,17 +69,25 @@ public class ProductAddFrame {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Product added successfully!");
-                alert.showAndWait();
+                alertSuccess();
             }
             else {
                 if (textFieldCodeP.getText().equals("") || !textFieldNameP.getText().equals("")){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Fill in the fields correctly!");
-                    alert.showAndWait();
+                    alertError();
                 }
             }
         });
+    }
+
+    private void alertSuccess(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Product added successfully!");
+        alert.showAndWait();
+    }
+
+    private void alertError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText("Fill in the fields correctly!");
+        alert.showAndWait();
     }
 }

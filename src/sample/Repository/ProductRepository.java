@@ -1,6 +1,5 @@
 package sample.Repository;
 
-import javafx.scene.control.TableView;
 import sample.model.Product;
 
 import java.sql.*;
@@ -8,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepository extends ConnectionToDB {
-   //todo в каждом репозитории такое
-    //add: в view если add -> создаем объект product -> идем в контроллер и потом ->repository
+
     private Connection connection;
-    //private List<Product> products;
 
     public ProductRepository() {
     }
@@ -23,14 +20,12 @@ public class ProductRepository extends ConnectionToDB {
             e.printStackTrace();
         }
         String SQL = "INSERT INTO PRODUCT (codeP, nameP, category)\n" + "VALUES\n (?, ?, ?);";
-        //PreparedStatement preparedStatement = connection.prepareStatement(SQL);
         PreparedStatement preparedStatement = getPreparedStatement(SQL);
         preparedStatement.setInt(1, product.getCodeP());
         preparedStatement.setString(2, product.getNameP());
         preparedStatement.setString(3, product.getCategory());
 
         preparedStatement.execute();
-        //preparedStatement.close();
         closePrepareStatement(preparedStatement);
         connection.close();
     }
@@ -70,7 +65,7 @@ public class ProductRepository extends ConnectionToDB {
         return codes;
     }
 
-    public List<Product> getProducts() throws SQLException, ClassNotFoundException {
+    public List<Product> getProducts() throws SQLException {
         try {
             connection = getConnection();
         } catch (ClassNotFoundException e) {
@@ -78,7 +73,7 @@ public class ProductRepository extends ConnectionToDB {
         }
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from product;");
-        //
+
         List<Product> products = new ArrayList<>();
         while (resultSet.next()) {
             Product product = new Product();
@@ -87,8 +82,7 @@ public class ProductRepository extends ConnectionToDB {
             product.setCategory(resultSet.getString(3));
             products.add(product);
         }
-        //System.out.println(products);
-        //
+
         statement.close();
         connection.close();
         return products;
@@ -107,6 +101,5 @@ public class ProductRepository extends ConnectionToDB {
         closePrepareStatement(preparedStatement);
         connection.close();
     }
-
 
 }

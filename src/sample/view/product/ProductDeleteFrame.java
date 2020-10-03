@@ -4,19 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import sample.controller.ProductController;
 
 import java.sql.SQLException;
 
-import static java.lang.Integer.parseInt;
-
 public class ProductDeleteFrame {
 
     private ProductController productController;
-    public VBox allElements;
+    private VBox allElements;
+    private Label deleteLabel;
     private ComboBox<Integer> codeComboBox;
 
     public ProductDeleteFrame() {
@@ -24,17 +22,11 @@ public class ProductDeleteFrame {
     }
 
     public VBox deleteProduct() throws SQLException, ClassNotFoundException {
-        Label deleteLabel = new Label("Delete product by code");
-        deleteLabel.setFont(Font.font(20));
-        deleteLabel.setStyle("-fx-font-weight: bold");
 
-
-        ObservableList<Integer> codes = FXCollections.observableArrayList(productController.getCodeList());
-        codeComboBox = new ComboBox<Integer>(codes);
+        createForm();
 
         Button deleteButton = new Button("DELETE");
         deleteButton.setMinWidth(90);
-
         actions(deleteButton);
 
         allElements = new VBox();
@@ -45,6 +37,15 @@ public class ProductDeleteFrame {
         return allElements;
     }
 
+    private void createForm() throws SQLException, ClassNotFoundException {
+        deleteLabel = new Label("Delete product by code");
+        deleteLabel.setFont(Font.font(20));
+        deleteLabel.setStyle("-fx-font-weight: bold");
+
+        ObservableList<Integer> codes = FXCollections.observableArrayList(productController.getCodeList());
+        codeComboBox = new ComboBox<Integer>(codes);
+    }
+
     public void actions(Button deleteButton){
         deleteButton.setOnAction(actionEvent -> {
                 try {
@@ -52,10 +53,13 @@ public class ProductDeleteFrame {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Product deleted successfully!");
-                alert.showAndWait();
-
+            alertSuccess();
         });
+    }
+
+    private void alertSuccess(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Product deleted successfully!");
+        alert.showAndWait();
     }
 }

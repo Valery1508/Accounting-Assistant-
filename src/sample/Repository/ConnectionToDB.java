@@ -12,9 +12,7 @@ public abstract class ConnectionToDB {
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName(JDBC_DRIVER);
-        //java.sql.Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
         connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
-        //System.out.println("we're connected");
         return connection;
     }
 
