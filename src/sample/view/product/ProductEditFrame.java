@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class ProductEditFrame {
 
     private ProductController productController;
-    public VBox group;
+    private VBox group;
 
     public ProductEditFrame() {
         productController = new ProductController();

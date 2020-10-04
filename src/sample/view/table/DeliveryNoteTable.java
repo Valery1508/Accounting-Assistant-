@@ -3,7 +3,7 @@ package sample.view.table;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class Table {
+public class DeliveryNoteTable {
 
     /*private final TableView table = new TableView();
 

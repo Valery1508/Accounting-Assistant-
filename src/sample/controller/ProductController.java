@@ -3,9 +3,11 @@ package sample.controller;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import sample.Repository.ProductRepository;
+import sample.model.Category;
 import sample.model.Product;
 import sample.view.product.ProductEditFrame;
 import sample.view.product.ProductEditRecordFrame;
+import sample.view.table.CategoryTable;
 import sample.view.table.ProductTable;
 
 import java.sql.SQLException;
@@ -16,7 +18,9 @@ public class ProductController {
     private List<String> categories;
     private List<Integer> codes;
     private List<Product> productList;
+    private List<Category> listOfCategories;
     private ProductTable productTable;
+    private CategoryTable categoryTable;
     private Product product;
 
     public List<String> getCategoryList() throws SQLException {
@@ -67,6 +71,17 @@ public class ProductController {
         addProduct(code, name, category);
         //productTable.addToObservableList(product);
     }
+
+    public List<Category> getListOfCategories() throws SQLException {
+        ProductRepository productRepository = new ProductRepository();
+        listOfCategories = productRepository.getListOfCategories();
+        return listOfCategories;
+    }
+    public TableView<Category> createTableOfCategories() throws SQLException {
+        categoryTable = new CategoryTable();
+        return categoryTable.createTable(getListOfCategories());
+    }
+
 
 
 }

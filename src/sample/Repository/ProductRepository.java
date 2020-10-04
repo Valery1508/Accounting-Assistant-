@@ -1,5 +1,6 @@
 package sample.Repository;
 
+import sample.model.Category;
 import sample.model.Product;
 
 import java.sql.*;
@@ -86,6 +87,28 @@ public class ProductRepository extends ConnectionToDB {
         statement.close();
         connection.close();
         return products;
+    }
+
+    public List<Category> getListOfCategories() throws SQLException{
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select distinct category from product;");
+
+        List<Category> categ = new ArrayList<>();
+        while (resultSet.next()) {
+            Category category = new Category();
+            category.setCategory(resultSet.getString(1));
+
+            categ.add(category);
+        }
+
+        statement.close();
+        connection.close();
+        return categ;
     }
 
     public void deleteProduct(int codeP) throws SQLException {
