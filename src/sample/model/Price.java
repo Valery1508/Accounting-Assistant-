@@ -5,6 +5,9 @@ public class Price {
     private String date;
     private double price;
 
+    public Price() {
+    }
+
     public int getCodeP() {
         return codeP;
     }

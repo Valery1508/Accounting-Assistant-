@@ -7,10 +7,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sample.view.product.CategoriesFrame;
-import sample.view.product.ProductAddFrame;
-import sample.view.product.ProductDeleteFrame;
-import sample.view.product.ProductEditFrame;
+import sample.view.ShowFrame.ShowTableOfChangedPrice;
+import sample.view.product.*;
 
 import java.sql.SQLException;
 
@@ -22,6 +20,7 @@ public class MainFrame {
     private MenuBar menuBar;
 
     private VBox addFrameVBox;
+    private VBox addPriceVBox;
 
     public MainFrame(Stage stage){
     this.stage = stage;
@@ -32,13 +31,13 @@ public void show(){
     menuBar = new MenuBar();
     menuBar.getMenus().addAll(createProductMenu(),
                               createDeliveryNoteMenu(),
-                              createProductCategoryMenu());
+                              createShowMenu());
     root = new BorderPane();
     root.setTop(menuBar);
 
     scene = new Scene(root, 500, 500);
     stage.setScene(scene);
-    stage.setMinWidth(800);
+    stage.setMinWidth(750);
     stage.setMinHeight(800);
     stage.setResizable(false);
     stage.setTitle("Marketing Department");
@@ -50,6 +49,7 @@ public void show(){
         MenuItem addProd = new MenuItem("Add");
         MenuItem editProd = new MenuItem("Edit");
         MenuItem deleteProd = new MenuItem("Delete");
+        MenuItem addPriceProd = new MenuItem("Add price");
 
         addProd.setOnAction(actionEvent -> {
 
@@ -64,9 +64,6 @@ public void show(){
                     e.printStackTrace();
                 }
             }
-            //todo проверка на правильность введенных данных
-            //todo вывести алерт "продукт добавлен"
-            //todo обновить mainframe
         });
 
 
@@ -94,7 +91,17 @@ public void show(){
 
         });
 
-        productMenu.getItems().addAll(addProd, editProd, deleteProd);
+        addPriceProd.setOnAction(actionEvent -> {
+            AddPriceFrame addPriceFrame = new AddPriceFrame();
+            try {
+                addPriceVBox = addPriceFrame.createAddPriceFrame();
+                root.setCenter(addPriceVBox);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        productMenu.getItems().addAll(addProd, editProd, deleteProd, addPriceProd);
         return productMenu;
     }
 
@@ -107,12 +114,13 @@ public void show(){
         return deliveryNoteMenu;
     }
 
-    private Menu createProductCategoryMenu(){
-        Menu productCategoryMenu = new Menu("Categories");
-        MenuItem showCategories = new MenuItem("Show all");
+    private Menu createShowMenu(){
+        Menu showMenu = new Menu("Show");
+        MenuItem showCategories = new MenuItem("Categories");
+        MenuItem showCustomersByMaxSum = new MenuItem("Customers");
+        MenuItem showListOfChangedPrice = new MenuItem("Changed price");
 
         showCategories.setOnAction(actionEvent -> {
-
             CategoriesFrame categoriesFrame = new CategoriesFrame();
             try {
                 root.setCenter(categoriesFrame.showCategories());
@@ -121,8 +129,17 @@ public void show(){
             }
         });
 
-        productCategoryMenu.getItems().addAll(showCategories);
-        return productCategoryMenu;
+        showListOfChangedPrice.setOnAction(actionEvent -> {
+            ShowTableOfChangedPrice showTableOfChangedPrice = new ShowTableOfChangedPrice();
+            try {
+                root.setCenter(showTableOfChangedPrice.show());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        showMenu.getItems().addAll(showCategories, showCustomersByMaxSum, showListOfChangedPrice);
+        return showMenu;
     }
 
 }

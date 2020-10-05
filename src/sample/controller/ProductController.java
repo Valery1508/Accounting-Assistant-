@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import sample.Repository.ProductRepository;
 import sample.model.Category;
+import sample.model.Price;
 import sample.model.Product;
 import sample.view.product.ProductEditFrame;
 import sample.view.product.ProductEditRecordFrame;
@@ -22,6 +23,7 @@ public class ProductController {
     private ProductTable productTable;
     private CategoryTable categoryTable;
     private Product product;
+
 
     public List<String> getCategoryList() throws SQLException {
         ProductRepository productRepository = new ProductRepository();  //todo сделать ее локальной переменной(private)
@@ -81,7 +83,5 @@ public class ProductController {
         categoryTable = new CategoryTable();
         return categoryTable.createTable(getListOfCategories());
     }
-
-
 
 }

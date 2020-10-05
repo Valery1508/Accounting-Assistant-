@@ -54,7 +54,6 @@ public class ProductAddFrame {
 
         ObservableList<String> categories = FXCollections.observableArrayList(productController.getCategoryList());
         categoryComboBox = new ComboBox<String>(categories);
-        categoryComboBox.setValue("Продовольственный");
 
         form = new HBox();
         form.getChildren().addAll(textFieldCodeP, textFieldNameP, categoryComboBox);

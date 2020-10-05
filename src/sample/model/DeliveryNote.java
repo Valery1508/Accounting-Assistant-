@@ -18,6 +18,14 @@ public class DeliveryNote {
         this.quantity = quantity;
     }
 
+    public DeliveryNote(int idCustomer, int codeP, String date, double price, int quantity) {
+        this.idCustomer = idCustomer;
+        this.codeP = codeP;
+        this.date = date;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public int getId() {
         return id;
     }
