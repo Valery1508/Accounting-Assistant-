@@ -28,6 +28,9 @@ public class DeliveryNote {
         this.totalPrice = price * quantity;
     }
 
+    public DeliveryNote() {
+    }
+
     public int getId() {
         return id;
     }

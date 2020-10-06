@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import sample.view.ShowFrame.ShowTableOfChangedPrice;
 import sample.view.deliveryNote.AddDeliveryNoteAndCustomerFrame;
 import sample.view.deliveryNote.DeleteDeliveryNoteFrame;
+import sample.view.deliveryNote.EditDeliveryNoteFrame;
 import sample.view.product.*;
 
 import java.sql.SQLException;
@@ -122,6 +123,16 @@ public void show(){
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        editDN.setOnAction(actionEvent -> {
+
+            EditDeliveryNoteFrame editDeliveryNoteFrame = new EditDeliveryNoteFrame();
+            try {
+                root.setCenter(editDeliveryNoteFrame.editDN());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
 

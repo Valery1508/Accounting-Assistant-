@@ -1,6 +1,7 @@
 package sample.Repository;
 
 import sample.model.DeliveryNote;
+import sample.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -64,5 +65,32 @@ public class DeliveryNoteRepository extends ConnectionToDB {
         closePrepareStatement(preparedStatement);
         connection.close();
     }
+
+    public List<DeliveryNote> getAllDN() throws SQLException {
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from deliverynote;");
+
+        List<DeliveryNote> products = new ArrayList<>();
+        while (resultSet.next()) {
+            DeliveryNote deliveryNote = new DeliveryNote();
+            deliveryNote.setId(resultSet.getInt(1));
+            deliveryNote.setIdCustomer(resultSet.getInt(2));
+            deliveryNote.setCodeP(resultSet.getInt(3));
+            deliveryNote.setDate(resultSet.getString(4));
+            deliveryNote.setPrice(resultSet.getDouble(5));
+            deliveryNote.setQuantity(resultSet.getInt(6));
+            deliveryNote.setTotalPrice(resultSet.getDouble(5)*resultSet.getInt(6));
+            products.add(deliveryNote);
+        }
+
+        statement.close();
+        connection.close();
+        return products;
+    };
 
 }

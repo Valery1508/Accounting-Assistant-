@@ -1,0 +1,78 @@
+CREATE TABLE PRODUCT(
+	codeP INTEGER PRIMARY KEY,
+	nameP VARCHAR(20),
+	category VARCHAR(20)
+);
+
+INSERT INTO PRODUCT (codeP, nameP, category)
+VALUES
+(78452, 'Компрессор', 'Промышленный'),
+(29378, 'Телевизор', 'Бытовой'),
+(28390, 'Холодильник', 'Бытовой'),
+(11782, 'Кофе', 'Продовольственный'),
+(37333, 'Тарелка керамическая', 'Хозяйственный'),
+(39383, 'Кружка', 'Хозяйственный');
+
+CREATE TABLE PRICE
+(
+    codeP INTEGER,
+    date VARCHAR(15),
+    price DOUBLE,
+	FOREIGN KEY (codeP) REFERENCES PRODUCT(codeP)
+);
+
+INSERT INTO PRICE (codeP, date, price)
+VALUES
+(78452, '15.09.2020', 1500.59),
+(78452, '20.02.2017', 1000),
+(29378, '03.03.2019', 400),
+(28390, '20.02.2020', 359),
+(11782, '28.011.2020', 12),
+(37333, '10.08.2020', 6.50),
+(39383, '10.08.2020', 8);
+
+
+CREATE TABLE CUSTOMER
+(
+    idCustomer INTEGER PRIMARY KEY,
+    type VARCHAR(15),
+	firstName VARCHAR(20),
+	secondName VARCHAR(20),
+	region VARCHAR(20),
+	street VARCHAR(20),
+	house INTEGER,
+    bankN INTEGER UNIQUE
+);
+
+INSERT INTO CUSTOMER (idCustomer, type, firstName, secondName, region, street, house, bankN)
+VALUES
+(1, 'физ. лицо', 'Сергей', 'Лимонов', 'Минский', 'Восточная', 57, 67934),
+(23, 'юр. лицо', 'Анна', 'Волкова', 'Витебский', 'Центральная', 91, 33856);
+
+CREATE TABLE BANK
+(
+    bankN INTEGER,
+	bankName VARCHAR(15),
+	FOREIGN KEY (bankN) REFERENCES CUSTOMER(bankN)
+);
+
+INSERT INTO BANK (bankN, bankName)
+VALUES
+(67934, 'БеларусьБанк'),
+(33856, 'Альфа-Банк');
+
+CREATE TABLE DELIVERYNOTE
+(
+    id INTEGER PRIMARY KEY,
+    idCustomer INTEGER,
+    codeP INTEGER,
+	date VARCHAR(15),
+    price DOUBLE,
+	quantityP INTEGER,
+    FOREIGN KEY (idCustomer) REFERENCES CUSTOMER(idCustomer),
+	FOREIGN KEY (codeP) REFERENCES PRODUCT(codeP)
+);
+
+INSERT INTO DELIVERYNOTE (id, idCustomer, codeP, date, price, quantityP)
+VALUES
+(1, 1, 78452, '20.02.2017', 1000, 2);
