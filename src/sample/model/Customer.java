@@ -5,18 +5,17 @@ public class Customer {
     private String type;
     private String firstName;
     private String secondName;
-    private String nameP;
+
     private String region;
     private String street;
     private int house;
     private int bankN;
 
-    public Customer(int idCustomer, String type, String firstName, String secondName, String nameP, String region, String street, int house, int bankN) {
+    public Customer(int idCustomer, String type, String firstName, String secondName, String region, String street, int house, int bankN) {
         this.idCustomer = idCustomer;
         this.type = type;
         this.firstName = firstName;
         this.secondName = secondName;
-        this.nameP = nameP;
         this.region = region;
         this.street = street;
         this.house = house;
@@ -53,14 +52,6 @@ public class Customer {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
-    }
-
-    public String getNameP() {
-        return nameP;
-    }
-
-    public void setNameP(String nameP) {
-        this.nameP = nameP;
     }
 
     public String getRegion() {

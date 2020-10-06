@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.view.ShowFrame.ShowTableOfChangedPrice;
+import sample.view.deliveryNote.AddDeliveryNoteAndCustomerFrame;
+import sample.view.deliveryNote.DeleteDeliveryNoteFrame;
 import sample.view.product.*;
 
 import java.sql.SQLException;
@@ -19,15 +21,14 @@ public class MainFrame {
     private BorderPane root;
     private MenuBar menuBar;
 
-    private VBox addFrameVBox;
-    private VBox addPriceVBox;
+    private VBox addFrameVBox, addPriceVBox, addDeliveryNoteVBox, deleteDeliveryNoteVBox;
 
     public MainFrame(Stage stage){
     this.stage = stage;
 }
 
 public void show(){
-//TODO add в меню еще два просмотра
+
     menuBar = new MenuBar();
     menuBar.getMenus().addAll(createProductMenu(),
                               createDeliveryNoteMenu(),
@@ -37,7 +38,7 @@ public void show(){
 
     scene = new Scene(root, 500, 500);
     stage.setScene(scene);
-    stage.setMinWidth(750);
+    stage.setMinWidth(800);
     stage.setMinHeight(800);
     stage.setResizable(false);
     stage.setTitle("Marketing Department");
@@ -110,6 +111,31 @@ public void show(){
         MenuItem addDN = new MenuItem("Add");
         MenuItem editDN = new MenuItem("Edit");
         MenuItem deleteDN = new MenuItem("Delete");
+
+        addDN.setOnAction(actionEvent -> {
+
+            if (!root.getChildren().contains(addDeliveryNoteVBox)) {
+                AddDeliveryNoteAndCustomerFrame addDeliveryNoteAndCustomerFrame = new AddDeliveryNoteAndCustomerFrame();
+                try {
+                    addDeliveryNoteVBox = addDeliveryNoteAndCustomerFrame.addDeliveryNoteAndCustomer();
+                    root.setCenter(addDeliveryNoteVBox);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        deleteDN.setOnAction(actionEvent -> {
+
+            DeleteDeliveryNoteFrame deleteDeliveryNoteFrame = new DeleteDeliveryNoteFrame();
+                try {
+                    root.setCenter(deleteDeliveryNoteFrame.deleteDN());
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+        });
+
+
         deliveryNoteMenu.getItems().addAll(addDN, editDN, deleteDN);
         return deliveryNoteMenu;
     }

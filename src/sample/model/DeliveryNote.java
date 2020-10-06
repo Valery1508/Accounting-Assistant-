@@ -7,7 +7,7 @@ public class DeliveryNote {
     private String date;
     private double price;
     private int quantity;
-    //private double totalPrice;
+    private double totalPrice;
 
     public DeliveryNote(int id, int idCustomer, int codeP, String date, double price, int quantity) {
         this.id = id;
@@ -16,6 +16,7 @@ public class DeliveryNote {
         this.date = date;
         this.price = price;
         this.quantity = quantity;
+        this.totalPrice = price * quantity;
     }
 
     public DeliveryNote(int idCustomer, int codeP, String date, double price, int quantity) {
@@ -24,6 +25,7 @@ public class DeliveryNote {
         this.date = date;
         this.price = price;
         this.quantity = quantity;
+        this.totalPrice = price * quantity;
     }
 
     public int getId() {
@@ -72,5 +74,13 @@ public class DeliveryNote {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
