@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.view.ShowFrame.ShowTableOfChangedPrice;
+import sample.view.ShowFrame.ShowTableOfCustomersMaxSumAndDate;
 import sample.view.deliveryNote.AddDeliveryNoteAndCustomerFrame;
 import sample.view.deliveryNote.DeleteDeliveryNoteFrame;
 import sample.view.deliveryNote.EditDeliveryNoteFrame;
@@ -22,7 +23,7 @@ public class MainFrame {
     private BorderPane root;
     private MenuBar menuBar;
 
-    private VBox addFrameVBox, addPriceVBox, addDeliveryNoteVBox, deleteDeliveryNoteVBox;
+    private VBox addFrameVBox, addPriceVBox, addDeliveryNoteVBox;
 
     public MainFrame(Stage stage){
     this.stage = stage;
@@ -161,6 +162,15 @@ public void show(){
             CategoriesFrame categoriesFrame = new CategoriesFrame();
             try {
                 root.setCenter(categoriesFrame.showCategories());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        showCustomersByMaxSum.setOnAction(actionEvent -> {
+            ShowTableOfCustomersMaxSumAndDate showTableOfCustomersMaxSumAndDate = new ShowTableOfCustomersMaxSumAndDate();
+            try {
+                root.setCenter(showTableOfCustomersMaxSumAndDate.showTable());
             } catch (SQLException e) {
                 e.printStackTrace();
             }

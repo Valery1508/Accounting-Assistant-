@@ -1,15 +1,21 @@
 package sample.controller;
 
+import com.mysql.cj.xdevapi.Table;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
 import sample.Repository.CustomerRepository;
 import sample.Repository.DeliveryNoteRepository;
+import sample.Repository.ProductRepository;
 import sample.model.Customer;
 import sample.model.DeliveryNote;
 import sample.view.deliveryNote.EditDeliveryNoteRecordFrame;
+import sample.view.table.CustomerByDateAndMaxSumTable;
 import sample.view.table.DeliveryNoteTable;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DeliveryNoteController {
@@ -17,6 +23,7 @@ public class DeliveryNoteController {
     private List<Integer> idList;
     private DeliveryNoteTable deliveryNoteTable;
     private List<DeliveryNote> listOfDNs;
+    private List<String> dates;
 
     public void addDeliveryNoteToBD(int idC, int codeP, String date, Double price, int quantity) throws SQLException {
         deliveryNote = new DeliveryNote(idC, codeP, date, price, quantity);
@@ -63,5 +70,22 @@ public class DeliveryNoteController {
         addDeliveryNoteToBD(idC, codeP, date, price, quantity);
     }
 
+    public List<String> getDateList() throws SQLException {
+        DeliveryNoteRepository deliveryNoteRepository = new DeliveryNoteRepository();
+        dates = deliveryNoteRepository.getDates();
+        return dates;
+    }
+
+    public TableView<Customer> showCustomerDateMaxSum(String date) throws SQLException {
+
+        List<Double> totalPricesList = new ArrayList<>();
+        DeliveryNoteRepository deliveryNoteRepository = new DeliveryNoteRepository();
+        totalPricesList = deliveryNoteRepository.getTotalPriceList(date);
+
+        Double maxSum = Collections.max(totalPricesList);
+
+        CustomerByDateAndMaxSumTable customerByDateAndMaxSumTable = new CustomerByDateAndMaxSumTable();
+        return customerByDateAndMaxSumTable.createTable(deliveryNoteRepository.getCustomersByMaxSumOnCertainDate(date, maxSum));
+    }
 
 }

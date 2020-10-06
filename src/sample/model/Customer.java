@@ -22,6 +22,17 @@ public class Customer {
         this.bankN = bankN;
     }
 
+    public Customer(String firstName, String secondName, String region, String street, int house) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.region = region;
+        this.street = street;
+        this.house = house;
+    }
+
+    public Customer() {
+    }
+
     public int getIdCustomer() {
         return idCustomer;
     }

@@ -1,6 +1,8 @@
 package sample.Repository;
 
+import sample.model.Customer;
 import sample.model.DeliveryNote;
+import sample.model.Price;
 import sample.model.Product;
 
 import java.sql.*;
@@ -92,5 +94,70 @@ public class DeliveryNoteRepository extends ConnectionToDB {
         connection.close();
         return products;
     };
+//todo
+    public List<Customer> getCustomersByMaxSumOnCertainDate(String date, double totalPrice) throws SQLException {
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        //String SQL = "select firstName, secondName, region, street, house from customer where idCustomer = (select idCustomer from deliverynote where price*quantityP = ?) AND date = ?;";
+        String SQL = "select customer.firstName, customer.secondName, customer.region, customer.street, customer.house from customer JOIN deliverynote ON deliverynote.idCustomer = customer.idCustomer WHERE deliverynote.date = ? AND deliverynote.price*deliverynote.quantityP = ?" ;
+        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+        preparedStatement.setString(1, date);
+        preparedStatement.setDouble(2, totalPrice);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
+        List<Customer> customers = new ArrayList<>();
+        while (resultSet.next()) {
+            Customer customer = new Customer();
+            customer.setFirstName(resultSet.getString(1));
+            customer.setSecondName(resultSet.getString(2));
+            customer.setRegion(resultSet.getString(3));
+            customer.setStreet(resultSet.getString(4));
+            customer.setHouse(resultSet.getInt(5));
+            customers.add(customer);
+        }
+        preparedStatement.close();
+        connection.close();
+        return customers;
+    }
+
+    public List<String> getDates() throws SQLException {
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select distinct date from deliverynote;");
+
+        List<String> dateList = new ArrayList<>();
+        while (resultSet.next()) {
+            dateList.add(resultSet.getString(1));
+        }
+        statement.close();
+        connection.close();
+        return dateList;
+    }
+
+    public List<Double> getTotalPriceList(String date) throws SQLException {
+        try {
+            connection = getConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String SQL = "select price, quantityP from deliverynote where date = ?" ;
+        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+        preparedStatement.setString(1, date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<Double> totalPriceList = new ArrayList<>();
+        while (resultSet.next()) {
+            totalPriceList.add(resultSet.getDouble(1)*resultSet.getInt(2));
+        }
+        preparedStatement.close();
+        connection.close();
+        return totalPriceList;
+    }
 }
