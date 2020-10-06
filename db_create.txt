@@ -6,12 +6,12 @@ CREATE TABLE PRODUCT(
 
 INSERT INTO PRODUCT (codeP, nameP, category)
 VALUES
-(78452, 'Компрессор', 'Промышленный'),
-(29378, 'Телевизор', 'Бытовой'),
-(28390, 'Холодильник', 'Бытовой'),
-(11782, 'Кофе', 'Продовольственный'),
-(37333, 'Тарелка керамическая', 'Хозяйственный'),
-(39383, 'Кружка', 'Хозяйственный');
+(78452, 'Компрессор', 'Industrial'),
+(29378, 'Телевизор', 'Domestic'),
+(28390, 'Холодильник', 'Domestic'),
+(11782, 'Кофе', 'Food'),
+(37333, 'Тарелка керамическая', 'Maintenance'),
+(39383, 'Кружка', 'Maintenance');
 
 CREATE TABLE PRICE
 (
@@ -46,8 +46,10 @@ CREATE TABLE CUSTOMER
 
 INSERT INTO CUSTOMER (idCustomer, type, firstName, secondName, region, street, house, bankN)
 VALUES
-(1, 'физ. лицо', 'Сергей', 'Лимонов', 'Минский', 'Восточная', 57, 67934),
-(23, 'юр. лицо', 'Анна', 'Волкова', 'Витебский', 'Центральная', 91, 33856);
+(1, 'физ. лицо', 'Sergio', 'Limon', 'Minsk', 'Vostok', 57, 67934),
+(2, 'юр. лицо', 'Lera', 'Zubr', 'Minsk', 'Vostok', 4, 67934),
+(67, 'физ. лицо', 'Anna', 'Bytes', 'Minsk', 'Vostok', 12, 67934),
+(23, 'юр. лицо', 'Anna', 'Wolb', 'Vitebsk', 'Vostok', 91, 33856);
 
 CREATE TABLE BANK
 (
@@ -58,8 +60,8 @@ CREATE TABLE BANK
 
 INSERT INTO BANK (bankN, bankName)
 VALUES
-(67934, 'БеларусьБанк'),
-(33856, 'Альфа-Банк');
+(67934, 'BelarusBank'),
+(33856, 'Alfa-Bank');
 
 CREATE TABLE DELIVERYNOTE
 (
