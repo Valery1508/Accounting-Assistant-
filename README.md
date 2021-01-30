@@ -1,26 +1,18 @@
-## ПБЗ, 2 лабораторная работа, 10 вариант
-## 821701, Зубрицкая Валерия Геннадьевна
+## Accounting Assistant
 
-# Тема : Учёт спроса и предложения
+# Short Description: 
+Accounting Assistant is simple MySQL desktop application based on the Model-View-Controller (MVC) Architecture made using JavaFx.
 
-## Словесное описание предметной области: 
-Отдел маркетинга предприятия занимается спросом выпускаемого товара. 
-Каждый товар характеризуется кодом, названием, категорией (промышленные, бытовые, торговое оборудование и т.п.). 
-Продажа товара на предприятии осуществляется по накладным, в которых указано кому отправлен товар (юридическое или физическое лицо, название, имя, адрес, номер, серия документа, банковские реквизиты (номер и название банка). 
-В накладной также указывается отпускная цена на текущую дату, количество отпущенного товара. Необходимо отслеживать название населенных пунктов, название региона Беларуси и страны ближнего или дальнего зарубежья куда отправлен товар. 
-Каждая накладная соответствует одному пункту назначения и одному покупателю. 
+Accounting Assistant User manages products and invoices of the company. Each product is characterized by a code, name, category. The sale of products is carried out by invoices.
 
-## Необходимо реализовать выполнения следующих функций:
--	Добавление/редактирование/удаление информации о товарах.
--	Добавление/редактирование/удаление информации о накладных.
--   Просмотр списка покупателей, сделавших покупку на максимальную сумму на выбранную дату – дата, название покупателя, адрес, сумма покупки.
--	Просмотр списка изменений стоимости заданного товара за указанный период времени (название предприятия, производящего товар, наименование товара, дата, стоимость).
--	Просмотр списка существующих категорий товаров.
+# Accounting Assistant User can:
+-	Add/edit/delete information about products;
+-	Add/edit/delete invoice information;
+- View list of customers who made a purchase for the maximum amount on a selected date;
+-	View a list of changes in the cost of a given product for a specified period of time;
+-	View a list of existing product categories.
 
-## Схема базы данных
-![](docs/schem.png)
-
-## Технические детали
+# Stack:
 1. Java8 + JavaFX
 2. MySQL
 3. JDBC
